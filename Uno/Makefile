@@ -12,6 +12,8 @@ CONF = config/avrdude.conf
 
 PORT = /dev/ttyACM0
 
+MAP = output.map
+
 MAINFILE = main
 
 
@@ -20,6 +22,7 @@ all: $(TARGET)
 rebuild: all
 
 $(TARGET): $(BUILD)output.elf
+	avr-objdump -h -S "$(BUILD)output.elf" > "$(MAP)"
 	avr-objcopy --output-target=ihex $(BUILD)output.elf $@
 
 
@@ -30,7 +33,7 @@ $(BUILD)output.elf : $(OBJECTS)
 
 $(BUILD)%.o: $(SOURCE)%.S $(BUILD)
 	@echo Building file: $< 
-	avr-as -mmcu=$(MCU) -I "./def" -o $@ "$<"
+	avr-as -mmcu=$(MCU) -I "./def" -I "$(SOURCE)" -o $@ "$<"
 	
 
 $(BUILD):
