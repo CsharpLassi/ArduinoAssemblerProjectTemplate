@@ -1,5 +1,5 @@
 .include "m328Pdef.S"
-.include "parameter.S"
+.include "register.S"
 
 ; Berechnungen
 .equ UBRR_VAL   , ((F_CPU+BAUD*8)/(BAUD*16)-1)  ; clever runden

@@ -36,6 +36,10 @@ $(BUILD)%.o: $(SOURCE)%.S $(BUILD)
 	@echo Building file: $<
 	avr-as -mmcu=$(MCU) -I "./def" -I "$(SOURCE)" -o $@ "$<"
 
+$(BUILD)%.o: $(SOURCE)%.c $(BUILD)
+		@echo Building file: $<
+		avr-gcc -mmcu=$(MCU) -c -o $@ "$<"
+
 
 $(BUILD):
 	mkdir $@
