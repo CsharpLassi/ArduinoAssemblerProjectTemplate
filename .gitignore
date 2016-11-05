@@ -1,6 +1,8 @@
 #Files
 *~
 *.hex
+*.out
+*.map
 
 #Dir
 

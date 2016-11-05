@@ -2,7 +2,7 @@ BUILD = build/
 
 SOURCE = source/
 
-OBJECTS := $(patsubst $(SOURCE)%.S,$(BUILD)%.o,$(wildcard $(SOURCE)*.S)) 
+OBJECTS := $(patsubst $(SOURCE)%.S,$(BUILD)%.o,$(wildcard $(SOURCE)*.S)) $(patsubst $(SOURCE)%.c,$(BUILD)%.o,$(wildcard $(SOURCE)*.c))
 
 TARGET = output.hex
 
@@ -16,6 +16,7 @@ MAP = output.map
 
 MAINFILE = main
 
+LD = linkerscripts/$(MCU).ld
 
 all: $(TARGET)
 
@@ -28,19 +29,19 @@ $(TARGET): $(BUILD)output.elf
 
 $(BUILD)output.elf : $(OBJECTS)
 	@echo Building target: $@
-	avr-ld -o $@ $(BUILD)$(MAINFILE).o
+	avr-ld -o $@ -A $(MCU) -T $(LD) $(OBJECTS)
 	@echo Finished building target: $@
 
 $(BUILD)%.o: $(SOURCE)%.S $(BUILD)
-	@echo Building file: $< 
+	@echo Building file: $<
 	avr-as -mmcu=$(MCU) -I "./def" -I "$(SOURCE)" -o $@ "$<"
-	
+
 
 $(BUILD):
 	mkdir $@
 
 install:
-	avrdude -C $(CONF) -v -p $(MCU) -carduino -P $(PORT) -b115200 -D -Uflash:w:$(TARGET):i 
+	avrdude -C $(CONF) -v -p $(MCU) -carduino -P $(PORT) -b115200 -D -Uflash:w:$(TARGET):i
 
 
 clean :
