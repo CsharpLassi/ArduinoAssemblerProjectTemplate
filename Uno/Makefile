@@ -38,11 +38,11 @@ $(BUILD)%.o: $(SOURCE)%.S $(BUILD)
 
 $(BUILD)%.o: $(SOURCE)%.c $(BUILD)
 		@echo Building file: $<
-		avr-gcc -mmcu=$(MCU) -c -I "./source/include" -o $@ "$<"
+		avr-gcc -mmcu=$(MCU) -c -Wall -O3 -I "./source/include" -o $@ "$<"
 
 $(BUILD)%.o: $(SOURCE)%.cpp $(BUILD)
 		@echo Building file: $<
-		avr-gcc -mmcu=$(MCU) -c -I "./source/include" -o $@ "$<"
+		avr-gcc -mmcu=$(MCU) -c -Wall -O3 -I "./source/include" -o $@ "$<"
 
 
 $(BUILD):
