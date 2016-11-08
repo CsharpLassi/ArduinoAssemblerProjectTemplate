@@ -2,7 +2,7 @@ BUILD = build/
 
 SOURCE = source/
 
-OBJECTS := $(patsubst $(SOURCE)%.S,$(BUILD)%.o,$(wildcard $(SOURCE)*.S)) $(patsubst $(SOURCE)%.c,$(BUILD)%.o,$(wildcard $(SOURCE)*.c))
+OBJECTS := $(patsubst $(SOURCE)%.S,$(BUILD)%.o,$(wildcard $(SOURCE)*.S)) $(patsubst $(SOURCE)%.c,$(BUILD)%.o,$(wildcard $(SOURCE)*.c)) $(patsubst $(SOURCE)%.cpp,$(BUILD)%.o,$(wildcard $(SOURCE)*.cpp))
 
 TARGET = output.hex
 
@@ -38,7 +38,11 @@ $(BUILD)%.o: $(SOURCE)%.S $(BUILD)
 
 $(BUILD)%.o: $(SOURCE)%.c $(BUILD)
 		@echo Building file: $<
-		avr-gcc -mmcu=$(MCU) -c -o $@ "$<"
+		avr-gcc -mmcu=$(MCU) -c -I "./source/include" -o $@ "$<"
+
+$(BUILD)%.o: $(SOURCE)%.cpp $(BUILD)
+		@echo Building file: $<
+		avr-gcc -mmcu=$(MCU) -c -I "./source/include" -o $@ "$<"
 
 
 $(BUILD):
